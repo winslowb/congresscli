@@ -1,0 +1,98 @@
+package congress
+
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"strings"
+	"io/ioutil"
+//	"time"
+)
+
+type VoteResult struct {
+	Votes []struct {
+		Chamber string `json:"chamber"`
+		Bill    struct {
+			Number string `json:"number"`
+			Title  string `json:"title"`
+		} `json:"bill"`
+		Description string `json:"description"`
+		Result      string `json:"result"`
+		Date        string `json:"date"`
+	} `json:"votes"`
+}
+
+
+func FetchRollCallVote(apiKey, chamber, session, number string) {
+	url := fmt.Sprintf("https://api.congress.gov/v3/vote/118/%s/%s/%s?format=json", chamber, session, number)
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("X-Api-Key", apiKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error fetching roll call vote:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+		fmt.Printf("Error: %s\n", string(bodyBytes))
+		return
+	}
+
+	var data struct {
+		Vote struct {
+			Chamber  string `json:"chamber"`
+			Date     string `json:"date"`
+			Result   string `json:"result"`
+			Question string `json:"question"`
+			URL      string `json:"url"`
+		} `json:"vote"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+		fmt.Println("Error decoding JSON:", err)
+		return
+	}
+
+	v := data.Vote
+	fmt.Printf("\n📊 %s Roll Call #%s\n", strings.Title(chamber), number)
+	fmt.Printf("📅 %s\n", v.Date)
+	fmt.Printf("❓ Question: %s\n", v.Question)
+	fmt.Printf("✅ Result: %s\n", v.Result)
+	fmt.Printf("🔗 %s\n", v.URL)
+}
+
+func FetchTodayVotes(apiKey string) error {
+//	today := time.Now().Format("2006-01-02")
+	url := fmt.Sprintf("https://api.propublica.org/congress/v1/118/senate/votes.json") // We'll add filtering later
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("X-API-Key", apiKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	var data struct {
+		Results []VoteResult `json:"results"`
+	}
+	err = json.NewDecoder(resp.Body).Decode(&data)
+	if err != nil {
+		return err
+	}
+
+	for _, result := range data.Results {
+		for _, vote := range result.Votes {
+			fmt.Printf("[%s] %s: %s (%s)\n", vote.Chamber, vote.Bill.Number, vote.Bill.Title, vote.Result)
+		}
+	}
+	return nil
+
+}
