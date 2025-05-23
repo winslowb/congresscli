@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"regexp"
 )
 
 // Fetch specific bill by ID (e.g., hr2250)
@@ -92,11 +93,14 @@ type BillResponse struct {
 		} `json:"latestAction"`
 		URL string `json:"url"`
 	} `json:"bills"`
+
+
 }
 
 // FetchRecentBills fetches and prints recent bills from Congress
-func FetchRecentBills(apiKey string) error {
-	url := "https://api.congress.gov/v3/bill?congress=119&format=json"
+func FetchRecentBills(apiKey string, congressNum string) error {
+//	url := "https://api.congress.gov/v3/bill?congress=119&format=json"
+	url := fmt.Sprintf("https://api.congress.gov/v3/bill?congress=%s&format=json", congressNum)
 
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Set("X-Api-Key", apiKey)
@@ -122,82 +126,59 @@ func FetchRecentBills(apiKey string) error {
 
 	return nil
 }
+func FetchVotesByBillID(apiKey, billID, congressNum string) {
+    re := regexp.MustCompile(`^([a-z]+)(\d+)$`)
+    matches := re.FindStringSubmatch(strings.ToLower(billID))
+    if len(matches) != 3 {
+        fmt.Println("Invalid bill ID format. Use something like hr2670.")
+        return
+    }
+    billType := matches[1]
+    billNumber := matches[2]
 
-func FetchVotesByBillID(apiKey, billID string) {
-	parts := strings.Split(billID, "r")
-	if len(parts) != 2 {
-		fmt.Println("Invalid bill ID format. Example: hr2250")
-		return
-	}
-	billType := "hr"
-	billNumber := parts[1]
+    votesURL := fmt.Sprintf("https://api.congress.gov/v3/bill/%s/%s/%s/votes?format=json", congressNum, billType, billNumber)
+    req, _ := http.NewRequest("GET", votesURL, nil)
+    req.Header.Set("X-Api-Key", apiKey)
 
-	url := fmt.Sprintf("https://api.congress.gov/v3/bill/119/%s/%s/votes?format=json", billType, billNumber)
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("X-Api-Key", apiKey)
+    // ✅ Declare the client BEFORE using it
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Request failed:", err)
+        return
+    }
+    defer resp.Body.Close()
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Error fetching votes:", err)
-		return
-	}
-	defer resp.Body.Close()
+    if resp.StatusCode == 404 {
+        fmt.Printf("🚫 Congress.gov has no vote data for bill %s in congress %s\n", billID, congressNum)
+        fmt.Println("💡 Try running: go run . clerkvote --year=2023 --roll=328")
+        return
+    }
 
-	var data struct {
-		Votes []struct {
-			Chamber     string `json:"chamber"`
-			RollCall    string `json:"rollCallNumber"`
-			Date        string `json:"date"`
-			Result      string `json:"result"`
-			Question    string `json:"question"`
-			VoteURI     string `json:"url"`
-		} `json:"votes"`
-	}
+    var data struct {
+        Votes []struct {
+            Chamber  string `json:"chamber"`
+            RollCall string `json:"rollCallNumber"`
+            Date     string `json:"date"`
+            Result   string `json:"result"`
+            Question string `json:"question"`
+        } `json:"votes"`
+    }
 
-	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
-		fmt.Println("Error decoding vote data:", err)
-		return
-	}
+    if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+        fmt.Println("Decode error:", err)
+        return
+    }
 
-	if len(data.Votes) == 0 {
-		fmt.Println("No votes recorded for this bill.")
-		return
-	}
+    if len(data.Votes) == 0 {
+        fmt.Println("No votes recorded for this bill.")
+        return
+    }
 
-	fmt.Printf("\n📊 Vote History for %s%s:\n", billType, billNumber)
-	for _, vote := range data.Votes {
-		fmt.Printf("\n• 🏛️ %s | Roll Call #%s\n", vote.Chamber, vote.RollCall)
-		fmt.Printf("  📅 %s\n", vote.Date)
-		fmt.Printf("  ❓ Question: %s\n", vote.Question)
-		fmt.Printf("  ✅ Result: %s\n", vote.Result)
-		fmt.Printf("  🔗 %s\n", vote.VoteURI)
-	}
+    vote := data.Votes[0]
+    year := strings.Split(vote.Date, "-")[0]
+
+    fmt.Printf("ℹ️  Found Roll Call %s (%s) in the %s on %s\n", vote.RollCall, vote.Chamber, year, vote.Date)
+    FetchClerkXMLRollCall(year, vote.RollCall)
 }
 
-// Search for bills by keyword
-func SearchBillsByKeyword(apiKey, keyword string) {
-	url := fmt.Sprintf("https://api.congress.gov/v3/bill?query=%s&format=json", keyword)
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Set("X-Api-Key", apiKey)
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	defer resp.Body.Close()
-
-var response BillResponse
-if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-	fmt.Println("Decode error:", err)
-	return
-}
-
-	for _, bill := range response.Bills {
-		fmt.Printf("- [%d %s] %s\n  📅 %s | 🔗 %s\n",
-			bill.Congress, bill.Number, bill.Title,
-			bill.LatestAction.ActionDate, bill.URL)
-	}
-}

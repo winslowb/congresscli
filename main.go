@@ -23,13 +23,15 @@ func main() {
 
 	// Subcommands
 	listCmd := flag.NewFlagSet("list", flag.ExitOnError)
-	searchCmd := flag.NewFlagSet("search", flag.ExitOnError)
-	searchID := searchCmd.String("id", "", "Bill ID (e.g., hr2250)")
-	searchKeyword := searchCmd.String("keyword", "", "Keyword to search for in bill titles")
+
+	votesCongress := votesCmd.String("congress", "", "Congress number (e.g., 119)")
 
 	clerkCmd := flag.NewFlagSet("clerkvote", flag.ExitOnError)
 	clerkYear := clerkCmd.String("year", "", "Year of the vote (e.g. 2023)")
 	clerkRoll := clerkCmd.String("roll", "", "Roll call number (e.g. 328)")
+
+
+	listCongress := listCmd.String("congress", "119", "Congress number (e.g., 118, 117)")
 	
 	if len(os.Args) < 2 {
 		fmt.Println("expected 'list' or 'search' subcommand")
@@ -53,23 +55,16 @@ flag.StringVar(&session, "session", "1", "Session number (1 or 2)")
 	case "votes":
 		_ = votesCmd.Parse(os.Args[2:])
 		if *votesID == "" {
-			fmt.Println("Provide a bill ID with --id")
+			fmt.Println("Provide both --id and --congress")
 			return
 		}
-		congress.FetchVotesByBillID(apiKey, *votesID)
+		congress.FetchVotesByBillID(apiKey, *votesID, *votesCongress)
 
 	case "list":
 		_ = listCmd.Parse(os.Args[2:])
-		congress.FetchRecentBills(apiKey)
-
-	case "search":
-		_ = searchCmd.Parse(os.Args[2:])
-		if *searchID != "" {
-			congress.FetchBillByID(apiKey, *searchID)
-		} else if *searchKeyword != "" {
-			congress.SearchBillsByKeyword(apiKey, *searchKeyword)
-		} else {
-			fmt.Println("Provide either --id or --keyword")
+		err := congress.FetchRecentBills(apiKey, *listCongress)
+		if err != nil {
+			log.Fatalf("Failed to fetch bills: %v", err)
 		}
 
 	default:

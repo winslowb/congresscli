@@ -11,9 +11,6 @@ type RollCallVote struct {
 	XMLName       xml.Name     `xml:"rollcall-vote"`
 	VoteMetadata  VoteMeta     `xml:"vote-metadata"`
 	RecordedVotes []Member     `xml:"recorded-vote"`
-	PartyTotals   []PartyTotal `xml:"totals-by-party"`  // ← FIXED
-	VoteTotals 	  VoteTotals 	 `xml:"vote-totals"`
-
 }
 
 type VoteMeta struct {
@@ -22,6 +19,8 @@ type VoteMeta struct {
 	Question string `xml:"vote-question"`
 	Result   string `xml:"vote-result"`
 	VoteDesc string `xml:"vote-desc"` // ✅ moved here
+	PartyTotals 	[]PartyTotal 		`xml:"vote-totals>totals-by-party"`
+
 }
 
 type Legislation struct {
@@ -51,10 +50,6 @@ type PartyTotal struct {
 	NotVoting int    `xml:"not-voting-total"`
 }
 
-type VoteTotals struct {
-	PartyTotals []PartyTotal `xml:"totals-by-party"`
-}
-
 
 func FetchClerkXMLRollCall(year string, rollNumber string) {
 	url := fmt.Sprintf("https://clerk.house.gov/evs/%s/roll%s.xml", year, rollNumber)
@@ -64,6 +59,7 @@ func FetchClerkXMLRollCall(year string, rollNumber string) {
 		fmt.Println("Request error:", err)
 		return
 	}
+
 
 if resp.StatusCode != http.StatusOK {
 	fmt.Printf("HTTP error: %d %s\n", resp.StatusCode, resp.Status)
@@ -77,34 +73,40 @@ if resp.StatusCode != http.StatusOK {
 		return
 	}
 
+fmt.Println("===== RAW XML PREVIEW =====")
+fmt.Println(string(body))
+fmt.Println("===========================")
+
+
 var vote RollCallVote
 if err := xml.Unmarshal(body, &vote); err != nil {
 	fmt.Println("XML parse error:", err)
 	return
 	}
 
+// fmt.Printf("DEBUG: Found %d party total entries\n", len(vote.VoteTotals.PartyTotals))
 
 
-	fmt.Printf("DEBUG: VoteDesc = %q\n", vote.VoteMetadata.VoteDesc)
-	fmt.Printf("\n📜 Roll Call Vote %s (%s)\n", rollNumber, year)
-	fmt.Printf("🗓️ Date: %s\n", vote.VoteMetadata.VoteDate)
-  fmt.Printf("📜 Bill: %s — %s\n", vote.VoteMetadata.LegisNum, vote.VoteMetadata.VoteDesc)
-//	fmt.Printf("📜 Bill: %s — %s\n", vote.LegisNum, vote.VoteMetadata.VoteDesc)
-	fmt.Printf("📜 Bill: %s\n", vote.VoteMetadata.VoteDesc)
-	fmt.Printf("❓ Question: %s\n", vote.VoteMetadata.Question)
-	fmt.Printf("✅ Result: %s\n", vote.VoteMetadata.Result)
-//	fmt.Printf("🟢 Yeas: %d | 🔴 Nays: %d | ⚪ Present: %d | ❌ Not Voting: %d\n",
-//		vote.TotalVoteCount.Yeas, 
-//		vote.TotalVoteCount.Nays, 
-//		vote.TotalVoteCount.Present, 
-//		vote.TotalVoteCount.NotVoting)
-	fmt.Println("🔍 Raw XML Preview:")
-//	fmt.Println(string(body)) 
+fmt.Printf("DEBUG: Found %d party total entries\n", len(vote.VoteMetadata.PartyTotals))
+
 fmt.Println("\n🧮 Vote Totals by Party:")
-for _, pt := range vote.VoteTotals.PartyTotals {
+for _, pt := range vote.VoteMetadata.PartyTotals {
 	fmt.Printf("• %s: 🟢 %d | 🔴 %d | ⚪ %d | ❌ %d\n",
 		pt.Party, pt.Yeas, pt.Nays, pt.Present, pt.NotVoting)
 }
+
+ 	// Header and metadata
+ 	fmt.Printf("\n📜 Roll Call Vote %s (%s)\n", rollNumber, year)
+ 	fmt.Printf("🗓️ Date: %s\n", vote.VoteMetadata.VoteDate)
+ 	fmt.Printf("📜 Bill: %s — %s\n", vote.VoteMetadata.LegisNum, vote.VoteMetadata.VoteDesc)
+ 	fmt.Printf("❓ Question: %s\n", vote.VoteMetadata.Question)
+ 	fmt.Printf("✅ Result: %s\n", vote.VoteMetadata.Result)
+ 	// (Raw XML preview removed for clarity)
+//fmt.Println("\n🧮 Vote Totals by Party:")
+//for _, pt := range vote.VoteTotals.PartyTotals {
+//	fmt.Printf("• %s: 🟢 %d | 🔴 %d | ⚪ %d | ❌ %d\n",
+//		pt.Party, pt.Yeas, pt.Nays, pt.Present, pt.NotVoting)
+//}
 
 	fmt.Println("\n🧑‍🤝‍🧑 Sample Votes:")
 	for i, m := range vote.RecordedVotes {

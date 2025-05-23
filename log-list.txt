@@ -1,0 +1,61 @@
+🗳️  Recent Bills in Congress:
+
+- [119 1921] A bill to amend title 38, United States Code, to modify the administration of housing loans of the Department of Veterans Affairs to prevent or resolve default under such loans, and for other purposes.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1921?format=json
+
+- [119 249] A resolution expressing support for the designation of May 2025 as "Mental Health Awareness Month".
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/249?format=json
+
+- [119 214] A resolution recognizing the significance of Asian American, Native Hawaiian, and Pacific Islander Heritage Month as an important time to celebrate the significant contributions of Asian Americans, Native Hawaiians, and Pacific Islanders to the history of the United States.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/214?format=json
+
+- [119 255] A resolution honoring the life, achievements, and legacy of former United States Senator Christopher "Kit" Bond of Missouri.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/255?format=json
+
+- [119 254] A resolution designating June 12, 2025, as "National Seersucker Day", designating every Thursday after National Seersucker Day through the last Thursday in August 2025 as "Seersucker Thursday", and designating June 2025 as "Seersucker Appreciation Month".
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/254?format=json
+
+- [119 253] A resolution congratulating His Holiness Pope Leo XIV on his election to the papacy.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/253?format=json
+
+- [119 252] A resolution designating May 2025 as "Older Americans Month".
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/252?format=json
+
+- [119 251] A resolution supporting the designation of May 4 through May 10, 2025, as "Children's Mental Health Awareness Week".
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/251?format=json
+
+- [119 250] A resolution recognizing National Foster Care Month as an opportunity to raise awareness about the challenges of children in the foster care system, and encouraging Congress to implement policies to improve the lives of children in the foster care system.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/250?format=json
+
+- [119 1920] A bill to amend title XIX of the Social Security Act to develop national quality standards for continuous skilled nursing services provided through Medicaid, and for other purposes.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1920?format=json
+
+- [119 1919] A bill to amend the Internal Revenue Code of 1986 to establish a domestic cotton consumption credit.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1919?format=json
+
+- [119 1918] A bill to amend the Internal Revenue Code of 1986 to allow a refundable tax credit against income tax for the purchase of qualified access technology for the blind.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1918?format=json
+
+- [119 257] A resolution expressing the sense of the Senate concerning the arrest and continued detention of Ekrem Imamoglu and urging the Government of Turkiye to uphold democratic values.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/257?format=json
+
+- [119 256] A resolution designating May 2025 as "American Stroke Month".
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/sres/256?format=json
+
+- [119 1051] Historic Greenwood District—Black Wall Street National Monument Establishment Act
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1051?format=json
+
+- [119 1913] A bill to amend the Revised Statutes to remove the defense of qualified immunity in the case of any action under section 1979, and for other purposes.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1913?format=json
+
+- [119 1912] A bill to amend title 38, United States Code, to expand access to the Veterans Community Care Program of the Department of Veterans Affairs to include certain veterans seeking mental health or substance-use services, and for other purposes.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1912?format=json
+
+- [119 1917] A bill to amend the Small Business Investment Act of 1958 to exclude from the limit on leverage certain amounts invested in smaller enterprises located in rural or low-income areas and small businesses in critical technology areas, and for other purposes.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1917?format=json
+
+- [119 1911] A bill to amend the Congressional Budget and Impoundment Control Act of 1974 to codify the Panel of Health Advisors within the Congressional Budget Office, and for other purposes.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1911?format=json
+
+- [119 1916] A bill to amend title 11, United States Code, to account for the protection of genetic information in bankruptcy.
+  📅 2025-05-22 | 🔗 https://api.congress.gov/v3/bill/119/s/1916?format=json
