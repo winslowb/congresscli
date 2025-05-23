@@ -39,6 +39,7 @@ go mod tidy
 
 
 List recent bills
+
 ```
 go run . list --congress=119
 ```
@@ -46,6 +47,7 @@ go run . list --congress=119
 
 
 Show vote results for a bill
+
 ```
 go run . votes --congress=119 --id hr2670
 ```
@@ -53,11 +55,13 @@ go run . votes --congress=119 --id hr2670
 If Congress.gov doesn’t return vote data, the CLI will prompt you to fall back to Clerk.gov roll calls.
 
 Directly query a known roll call
+
 ```
 go run . clerkvote --year=2023 --roll=328
 ```
 
 💡 Example Output
+
 ```
 ```
  Vote Totals by Party:
@@ -79,18 +83,22 @@ go run . clerkvote --year=2023 --roll=328
 
 
 🔧 Project Structure
+
 ```
-congresscli/
+- congresscli/
 
 ├─ main.go          # CLI entrypoint
+
+├── .env             # Stores your Congress.gov API key
+
+└── go.mod           # Module definition
+
+- congresscli/congress
 
 ├── bill.go          # Handles Congress.gov bill/vote logic
 
 ├── votes.go         # Handles Clerk XML roll call parsing
 
-├── .env             # Stores your Congress.gov API key
-
-└── go.mod           # Module definition
 ```
 
 📓 Planned Features
