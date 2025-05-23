@@ -59,11 +59,24 @@ go run . clerkvote --year=2023 --roll=328
 
 💡 Example Output
 ```
-🧮 Vote Totals by Party:
-• Republican: 🟢 215 | 🔴 4 | ⚪ 0 | ❌ 3
-• Democratic: 🟢 4   | 🔴 206 | ⚪ 0 | ❌ 2
-• Independent: 🟢 0 | 🔴 0 | ⚪ 0 | ❌ 0
 ```
+ Vote Totals by Party:
+• Republican: 🟢 215 | 🔴 4 | ⚪ 0 | ❌ 3
+• Democratic: 🟢 4 | 🔴 206 | ⚪ 0 | ❌ 2
+• Independent: 🟢 0 | 🔴 0 | ⚪ 0 | ❌ 0
+
+📜 Roll Call Vote 328 (2023)
+
+🗓️  Date: 14-Jul-2023
+
+📜 Bill: H R 2670 — National Defense Authorization Act
+
+❓ Question: On Passage
+
+✅ Result: Passed
+
+🧑‍🤝‍🧑 Sample Votes:
+
 
 🔧 Project Structure
 ```
