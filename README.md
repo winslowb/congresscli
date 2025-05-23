@@ -81,10 +81,15 @@ go run . clerkvote --year=2023 --roll=328
 🔧 Project Structure
 ```
 congresscli/
-├── main.go          # CLI entrypoint
+
+├─ main.go          # CLI entrypoint
+
 ├── bill.go          # Handles Congress.gov bill/vote logic
+
 ├── votes.go         # Handles Clerk XML roll call parsing
+
 ├── .env             # Stores your Congress.gov API key
+
 └── go.mod           # Module definition
 ```
 
