@@ -26,21 +26,27 @@ Built in Go for clarity, speed, and transparency.
 ### Setup
 
 ```bash
-git clone https://github.com/your-username/congresscli.git
+git clone https://github.com/winslowb/congresscli.git
 cd congresscli
+```
 
 # Add your API key to .env
+```bash
 echo "CONGRESS_API_KEY=your_api_key_here" > .env
+```
+
 
 # Install Go dependencies
+```bash
 go mod tidy
+```
+
 
 🛠️ Usage
 
-
 List recent bills
 
-```
+```bash
 go run . list --congress=119
 ```
         
@@ -48,7 +54,7 @@ go run . list --congress=119
 
 Show vote results for a bill
 
-```
+```bash
 go run . votes --congress=119 --id hr2670
 ```
 
@@ -56,13 +62,13 @@ If Congress.gov doesn’t return vote data, the CLI will prompt you to fall back
 
 Directly query a known roll call
 
-```
+```bash
 go run . clerkvote --year=2023 --roll=328
 ```
 
 💡 Example Output
 
-```
+```bash
 ```
  Vote Totals by Party:
 • Republican: 🟢 215 | 🔴 4 | ⚪ 0 | ❌ 3
@@ -80,6 +86,8 @@ go run . clerkvote --year=2023 --roll=328
 ✅ Result: Passed
 
 🧑‍🤝‍🧑 Sample Votes:
+
+```
 
 
 🔧 Project Structure
