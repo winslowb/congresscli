@@ -71,8 +71,11 @@ go run . clerkvote --year=2023 --roll=328
 ```bash
 ```
  Vote Totals by Party:
+
 • Republican: 🟢 215 | 🔴 4 | ⚪ 0 | ❌ 3
+
 • Democratic: 🟢 4 | 🔴 206 | ⚪ 0 | ❌ 2
+
 • Independent: 🟢 0 | 🔴 0 | ⚪ 0 | ❌ 0
 
 📜 Roll Call Vote 328 (2023)
