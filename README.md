@@ -89,7 +89,6 @@ go run . clerkvote --year=2023 --roll=328
 ✅ Result: Passed
 
 🧑‍🤝‍🧑 Sample Votes:
-
 ```
 
 
