@@ -92,25 +92,6 @@ go run . clerkvote --year=2023 --roll=328
 ```
 
 
-🔧 Project Structure
-
-
-```bash
-
-- congresscli/
-
-├─ main.go          # CLI entrypoint
-
-├── .env             # Stores your Congress.gov API key
-
-└── go.mod           # Module definition
-
-- congresscli/congress/
-
-├── bill.go          # Handles Congress.gov bill/vote logic
-
-└── votes.go         # Handles Clerk XML roll call parsing
-```
 
 📓 Planned Features
 - Filter bills by chamber, sponsor, or status
