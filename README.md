@@ -69,7 +69,6 @@ go run . clerkvote --year=2023 --roll=328
 💡 Example Output
 
 ```bash
-```
  Vote Totals by Party:
 
 • Republican: 🟢 215 | 🔴 4 | ⚪ 0 | ❌ 3
@@ -91,9 +90,8 @@ go run . clerkvote --year=2023 --roll=328
 🧑‍🤝‍🧑 Sample Votes:
 ```
 
-
-
 📓 Planned Features
+
 - Filter bills by chamber, sponsor, or status
 
 - List all votes per bill (not just the most recent)
