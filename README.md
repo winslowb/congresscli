@@ -95,7 +95,7 @@ go run . clerkvote --year=2023 --roll=328
 
 🔧 Project Structure
 
-```
+```bash
 - congresscli/
 
 ├─ main.go          # CLI entrypoint
@@ -108,7 +108,7 @@ go run . clerkvote --year=2023 --roll=328
 
 ├── bill.go          # Handles Congress.gov bill/vote logic
 
-├── votes.go         # Handles Clerk XML roll call parsing
+└── votes.go         # Handles Clerk XML roll call parsing
 
 ```
 
