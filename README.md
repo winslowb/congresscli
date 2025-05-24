@@ -104,12 +104,11 @@ go run . clerkvote --year=2023 --roll=328
 
 └── go.mod           # Module definition
 
-- congresscli/congress
+- congresscli/congress/
 
 ├── bill.go          # Handles Congress.gov bill/vote logic
 
 └── votes.go         # Handles Clerk XML roll call parsing
-
 ```
 
 📓 Planned Features
